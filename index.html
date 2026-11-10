@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio del Camino Real - Portal Educativo y Accesos Directos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0d2b5c',
+                            darkBlue: '#081a38',
+                            sky: '#0284c7',
+                            yellow: '#facc15',
+                            gold: '#eab308',
+                            green: '#16a34a',
+                            purple: '#7e22ce',
+                            orange: '#ea580c',
+                            cyan: '#0891b2',
+                            slate: '#475569'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        .font-cursive {
+            font-family: 'Caveat', cursive;
+        }
+        
+        /* Personalización de barra de desplazamiento */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Degradado con curvas decorativas del encabezado */
+        .header-bg {
+            background-color: #0c2340;
+            background-image: radial-gradient(circle at 80% 20%, rgba(2, 132, 199, 0.25) 0%, transparent 40%),
+                              radial-gradient(circle at 10% 80%, rgba(250, 204, 21, 0.15) 0%, transparent 30%);
+        }
+
+        /* Estilo para botón de pestaña activa */
+        .tab-btn.active {
+            background-color: #facc15;
+            color: #0f172a;
+            font-weight: 700;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Animación para tarjetas de acceso directo */
+        .access-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .access-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.1), 0 6px 8px -4px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans">
+
+    <!-- HEADER SUPERIOR - COLEGIO DEL CAMINO REAL -->
+    <header class="header-bg text-white relative shadow-lg overflow-hidden border-b-4 border-amber-400">
+        <!-- Overlay Vectorial de Adorno -->
+        <div class="absolute top-0 right-0 w-full md:w-2/3 h-full opacity-30 pointer-events-none">
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" class="w-full h-full">
+                <path d="M0,0 L500,0 L500,150 C300,120 200,180 0,60 Z" fill="#facc15"></path>
+                <path d="M150,0 L500,0 L500,150 C350,80 250,140 150,0 Z" fill="#0284c7"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Logo, Nombre y Lema -->
+                <div class="flex items-center space-x-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
+                                Colegio del Camino Real
+                            </h1>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold text-amber-300 italic">"Mario Miranda Pinto"</p>
+                        <p class="text-sm sm:text-base font-cursive text-amber-200 mt-0.5">
+                            "Formamos para servir, servimos para construir"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Reloj, Fecha y Cambiador de Tema -->
+                <div class="flex flex-col items-center md:items-end space-y-2 bg-slate-900/60 backdrop-blur-md p-3 rounded-2xl border border-slate-700/60 shadow-inner">
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right">
+                            <div id="liveClock" class="text-xl sm:text-2xl font-black font-mono tracking-wider text-amber-400">12:00:00</div>
+                            <div id="liveDate" class="text-xs font-medium text-slate-300">Cargando fecha...</div>
+                        </div>
+                        <div class="h-8 w-px bg-slate-700"></div>
+                        <div class="flex items-center space-x-2">
+                            <button id="themeToggleBtn" onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 transition-all border border-slate-700 shadow" title="Cambiar Tema (Claro/Oscuro)">
+                                <i class="fas fa-moon text-lg" id="themeIcon"></i>
+                            </button>
+                            <button onclick="openHelpModal()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 hover:text-sky-300 transition-all border border-slate-700 shadow" title="Configuración y Ayuda">
+                                <i class="fas fa-cog text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BARRA DE NAVEGACIÓN POR PESTAÑAS (TABS) -->
+        <nav class="bg-slate-950/80 backdrop-blur border-t border-slate-800/80 px-2 sm:px-6">
+            <div class="max-w-7xl mx-auto flex items-center overflow-x-auto space-x-1 py-2 no-scrollbar scroll-smooth">
+                <button onclick="filterCategory('all')" id="tab-all" class="tab-btn active flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-home mr-2"></i> Inicio
+                </button>
+                <button onclick="filterCategory('institucional')" id="tab-institucional" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-university mr-2 text-blue-400"></i> Institucional
+                </button>
+                <button onclick="filterCategory('gworkspace')" id="tab-gworkspace" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fab fa-google mr-2 text-sky-400"></i> Google Workspace
+                </button>
+                <button onclick="filterCategory('ambiente')" id="tab-ambiente" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-leaf mr-2 text-green-400"></i> Medio Ambiente
+                </button>
+                <button onclick="filterCategory('robotica')" id="tab-robotica" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-microchip mr-2 text-emerald-400"></i> Robótica
+                </button>
+                <button onclick="filterCategory('diseno')" id="tab-diseno" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-palette mr-2 text-purple-400"></i> Diseño y Multimedia
+                </button>
+                <button onclick="filterCategory('educativo')" id="tab-educativo" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-graduation-cap mr-2 text-orange-400"></i> Educativo
+                </button>
+                <button onclick="filterCategory('multimedia')" id="tab-multimedia" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-gamepad mr-2 text-red-400"></i> Juegos y Multimedia
+                </button>
+                <button onclick="filterCategory('utilidades')" id="tab-utilidades" class="tab-btn flex items-center px-4 py-2 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 hover:bg-amber-400/20 text-slate-200">
+                    <i class="fas fa-tools mr-2 text-slate-400"></i> Herramientas
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- BARRA DE BÚSQUEDA DINÁMICA -->
+        <div class="relative bg-white dark:bg-slate-800 rounded-2xl p-2 sm:p-3 shadow-md border border-slate-200 dark:border-slate-700 flex items-center gap-3">
+            <div class="pl-3 text-slate-400 dark:text-slate-500 text-lg">
+                <i class="fas fa-search"></i>
+            </div>
+            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Buscar accesos directos (ej: Gmail, Masterclass, Scratch, Kahoot, NTV, Poki, Mineduc)..." class="w-full bg-transparent border-none outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm sm:text-base font-medium">
+            <button onclick="clearSearch()" id="clearSearchBtn" class="hidden pr-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i class="fas fa-times-circle text-lg"></i>
+            </button>
+            <div id="searchCounter" class="hidden px-3 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 rounded-lg text-xs font-bold whitespace-nowrap">
+                0 resultados
+            </div>
+        </div>
+
+        <!-- GRID PRINCIPAL Y SIDEBAR -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+            <!-- CUADRÍCULA DE SECCIONES (3/4 DE ANCHO EN COMPUTADORA) -->
+            <div class="lg:col-span-3 space-y-8" id="cardsGridContainer">
+
+                <!-- SECCIÓN 1: ACCESOS INSTITUCIONALES -->
+                <section class="category-block" data-category="institucional">
+                    <div class="bg-blue-800 dark:bg-blue-900 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-blue-700">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-university text-lg text-amber-300"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Accesos Institucionales</h2>
+                        </div>
+                        <span class="bg-blue-950/60 text-amber-300 text-xs px-2.5 py-0.5 rounded-full font-semibold">ccrmmp.cl</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        
+                        <!-- Página Oficial -->
+                        <a href="https://www.ccrmmp.cl" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-blue-500 dark:hover:border-blue-400 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/60 flex items-center justify-center text-blue-700 dark:text-blue-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-school text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400">Página Oficial</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">www.ccrmmp.cl</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                                Visitar Sitio <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Masterclass -->
+                        <a href="https://colegiocaminoreal.masterclass.cl" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-blue-500 dark:hover:border-blue-400 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-slate-900 text-white flex items-center justify-center mb-2 group-hover:scale-110 transition-transform shadow">
+                                <span class="text-sm font-black tracking-tighter text-amber-400">M</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400">Plataforma Masterclass</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-[170px]">colegiocaminoreal.masterclass.cl</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                                Ingresar <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Canal Ambiental Youtube -->
+                        <a href="https://www.youtube.com/@CCRMMP-Ambiental" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-red-100 dark:bg-red-900/60 flex items-center justify-center text-red-600 dark:text-red-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fab fa-youtube text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-red-600">Canal Ambiental</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">@CCRMMP-Ambiental</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-red-600 dark:text-red-400">
+                                Ver Canal <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Facebook Institucional -->
+                        <a href="https://www.facebook.com/ccrmmp" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-blue-600 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-900/60 flex items-center justify-center text-blue-600 dark:text-blue-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fab fa-facebook-f text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-blue-600">Facebook Institucional</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">facebook.com/ccrmmp</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                                Seguir <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Instagram Institucional -->
+                        <a href="https://www.instagram.com/ccrmmp/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-pink-500 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-pink-100 dark:bg-pink-900/60 flex items-center justify-center text-pink-600 dark:text-pink-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fab fa-instagram text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-pink-600">Instagram</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">@ccrmmp</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-pink-600 dark:text-pink-400">
+                                Ver Fotos <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Municipalidad de Mostazal -->
+                        <a href="https://mostazal.cl/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-amber-500 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/60 flex items-center justify-center text-amber-700 dark:text-amber-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-building-columns text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-amber-600">Municipalidad de Mostazal</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">mostazal.cl</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+                                Ir al Sitio <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Ministerio de Educación -->
+                        <a href="https://www.mineduc.cl/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-blue-500 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-900/60 flex items-center justify-center text-blue-800 dark:text-blue-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-landmark text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-blue-600">Ministerio de Educación</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">www.mineduc.cl</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                                Mineduc <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Sistema de Admisión Escolar -->
+                        <a href="https://www.sistemadeadmisionescolar.cl/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-red-100 dark:bg-red-900/60 flex items-center justify-center text-red-600 dark:text-red-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-file-signature text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-red-600">Admisión Escolar SAE</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-[170px]">sistemadeadmisionescolar.cl</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-red-600 dark:text-red-400">
+                                Postulaciones <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                        <!-- Anótate en la Lista -->
+                        <a href="https://registropublicodigital.mineduc.gob.cl/rpd-app-registro-apoderado/login" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-emerald-500 flex flex-col justify-between items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-700 dark:text-emerald-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-clipboard-list text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-emerald-600">Anótate en la Lista</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Registro Público Digital</p>
+                            </div>
+                            <span class="mt-2.5 inline-flex items-center text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                                Acceso Apoderados <i class="fas fa-external-link-alt ml-1 text-[9px]"></i>
+                            </span>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 2: GOOGLE WORKSPACE INSTITUCIONAL -->
+                <section class="category-block" data-category="gworkspace">
+                    <div class="bg-sky-600 dark:bg-sky-800 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-sky-500">
+                        <div class="flex items-center space-x-3">
+                            <i class="fab fa-google text-lg text-white"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Google Workspace Institucional</h2>
+                        </div>
+                        <span class="bg-sky-900/60 text-sky-100 text-xs px-2.5 py-0.5 rounded-full font-semibold">Herramientas Google</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        
+                        <!-- Google.cl -->
+                        <a href="https://www.google.cl" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-red-500 font-black text-lg mb-1.5 group-hover:scale-110 transition-transform shadow-sm">
+                                G
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Google Chile</span>
+                        </a>
+
+                        <!-- Gmail Institucional -->
+                        <a href="https://mail.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-red-50 dark:bg-slate-800 flex items-center justify-center text-red-500 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Gmail Institucional</span>
+                        </a>
+
+                        <!-- Google Drive -->
+                        <a href="https://drive.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-slate-800 flex items-center justify-center text-amber-500 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fab fa-google-drive"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Google Drive</span>
+                        </a>
+
+                        <!-- Google Docs -->
+                        <a href="https://docs.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-blue-50 dark:bg-slate-800 flex items-center justify-center text-blue-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Google Docs</span>
+                        </a>
+
+                        <!-- Google Planillas -->
+                        <a href="https://sheets.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-slate-800 flex items-center justify-center text-emerald-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-table"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Google Planillas</span>
+                        </a>
+
+                        <!-- Google Presentaciones -->
+                        <a href="https://slides.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-slate-800 flex items-center justify-center text-amber-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-file-powerpoint"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Google Presentaciones</span>
+                        </a>
+
+                        <!-- Google Notebook LM -->
+                        <a href="https://notebooklm.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-50 dark:bg-slate-800 flex items-center justify-center text-indigo-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Notebook LM</span>
+                        </a>
+
+                        <!-- Google Calendario -->
+                        <a href="https://calendar.google.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-slate-800 flex items-center justify-center text-rose-500 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Google Calendario</span>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: MEDIO AMBIENTE (SNCAE Y ECOLÓGICO) -->
+                <section class="category-block" data-category="ambiente">
+                    <div class="bg-green-700 dark:bg-green-900 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-green-600">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-leaf text-lg text-amber-300"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Medio Ambiente y Certificación SNCAE</h2>
+                        </div>
+                        <span class="bg-green-950/60 text-green-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">Sello Sustentable</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        
+                        <!-- Ministerio del Medio Ambiente -->
+                        <a href="https://mma.gob.cl/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-green-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-green-100 dark:bg-green-900/60 flex items-center justify-center text-green-700 dark:text-green-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-seedling text-base"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-green-600">Ministerio del Medio Ambiente</h3>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">mma.gob.cl</p>
+                        </a>
+
+                        <!-- Interescolar Ambiental -->
+                        <a href="https://interescolarambiental.cl/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-green-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-700 dark:text-emerald-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-tree text-base"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-green-600">Interescolar Ambiental</h3>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">interescolarambiental.cl</p>
+                        </a>
+
+                        <!-- SNCAE -->
+                        <a href="https://sncae.mma.gob.cl/portal" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-green-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-teal-100 dark:bg-teal-900/60 flex items-center justify-center text-teal-700 dark:text-teal-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-award text-base"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-green-600">Portal SNCAE</h3>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">sncae.mma.gob.cl/portal</p>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 4: ROBÓTICA Y AUTOMATIZACIÓN -->
+                <section class="category-block" data-category="robotica">
+                    <div class="bg-emerald-600 dark:bg-emerald-800 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-emerald-500">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-code text-lg text-amber-300"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Robótica y Automatización</h2>
+                        </div>
+                        <span class="bg-emerald-950/60 text-emerald-100 text-xs px-2.5 py-0.5 rounded-full font-semibold">Taller TICC</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
+                        
+                        <!-- Tinkercad -->
+                        <a href="https://www.tinkercad.com/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-emerald-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-700 dark:text-emerald-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-cubes text-base"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-emerald-600">Tinkercad</h3>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">www.tinkercad.com</p>
+                        </a>
+
+                        <!-- Scratch -->
+                        <a href="https://scratch.mit.edu/projects/editor/?tutorial=getStarted" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-emerald-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/60 flex items-center justify-center text-amber-600 dark:text-amber-300 mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-cat text-base"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-emerald-600">Scratch</h3>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-[170px]">scratch.mit.edu</p>
+                        </a>
+
+                        <!-- Todo Lego -->
+                        <a href="https://juegosrobotica.es/instrucciones-lego-mindstorms-ev3/" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-amber-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-slate-800 flex items-center justify-center text-amber-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-amber-600">Todo Lego</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Instrucciones EV3</p>
+                        </a>
+
+                        <!-- Wokwi -->
+                        <a href="https://wokwi.com/" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-teal-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-teal-100 dark:bg-slate-800 flex items-center justify-center text-teal-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-teal-600">Wokwi</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Simulador Arduino</p>
+                        </a>
+
+                        <!-- With Diode -->
+                        <a href="https://www.withdiode.com/" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-yellow-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-yellow-100 dark:bg-slate-800 flex items-center justify-center text-yellow-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-yellow-600">With Diode</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Circuitos electrónicos</p>
+                        </a>
+
+                        <!-- Cirkit Designer -->
+                        <a href="https://app.cirkitdesigner.com/" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-purple-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-slate-800 flex items-center justify-center text-purple-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-diagram-project"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-purple-600">Cirkit Designer</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Diseño de circuitos</p>
+                        </a>
+
+                        <!-- Code Combat -->
+                        <a href="https://codecombat.com/play" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-red-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-red-600">Code Combat</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Aprender programación</p>
+                        </a>
+
+                        <!-- Pilas y Bloques -->
+                        <a href="https://pilasbloques.program.ar/" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-orange-100 dark:bg-slate-800 flex items-center justify-center text-orange-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-orange-600">Pilas y Bloques</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Programación inicial</p>
+                        </a>
+
+                        <!-- Blockly Games -->
+                        <a href="https://blockly.games/?lang=es" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-indigo-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 text-base mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-puzzle-piece"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm group-hover:text-indigo-600">Blockly Games</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Juegos de programación</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 5: DISEÑO Y MULTIMEDIA -->
+                <section class="category-block" data-category="diseno">
+                    <div class="bg-purple-700 dark:bg-purple-900 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-purple-600">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-palette text-lg text-amber-300"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Diseño y Multimedia</h2>
+                        </div>
+                        <span class="bg-purple-950/60 text-purple-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">Creatividad Digital</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        
+                        <!-- Canva -->
+                        <a href="https://www.canva.com/es_419/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-purple-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-cyan-100 dark:bg-slate-800 flex items-center justify-center text-cyan-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Canva</span>
+                        </a>
+
+                        <!-- Genially -->
+                        <a href="https://genially.com/es/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-purple-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-wand-magic-sparkles"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Genially</span>
+                        </a>
+
+                        <!-- Paint Sumo App -->
+                        <a href="https://paint.sumo.app/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-purple-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-pink-100 dark:bg-slate-800 flex items-center justify-center text-pink-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Sumo Paint</span>
+                        </a>
+
+                        <!-- AutoDraw -->
+                        <a href="https://www.autodraw.com/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-purple-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-slate-800 flex items-center justify-center text-amber-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-pen-nib"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">AutoDraw</span>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 6: EDUCATIVO -->
+                <section class="category-block" data-category="educativo">
+                    <div class="bg-orange-600 dark:bg-orange-800 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-orange-500">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-graduation-cap text-lg text-amber-200"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Plataformas Educativas</h2>
+                        </div>
+                        <span class="bg-orange-950/60 text-orange-100 text-xs px-2.5 py-0.5 rounded-full font-semibold">Aprendizaje</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        
+                        <!-- NTV Chile -->
+                        <a href="https://www.tvn.cl/ntv" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-red-600 font-extrabold text-sm mb-1.5 group-hover:scale-110 transition-transform">
+                                NTV
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">NTV Chile</span>
+                        </a>
+
+                        <!-- Kahoot Docente -->
+                        <a href="https://kahoot.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-slate-800 flex items-center justify-center text-purple-700 font-extrabold text-sm mb-1.5 group-hover:scale-110 transition-transform">
+                                K!
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Kahoot Docente</span>
+                        </a>
+
+                        <!-- Kahoot Estudiante -->
+                        <a href="https://kahoot.it" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-purple-600 text-white flex items-center justify-center font-extrabold text-sm mb-1.5 group-hover:scale-110 transition-transform">
+                                K!
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Kahoot Estudiante</span>
+                        </a>
+
+                        <!-- ABC Fácil -->
+                        <a href="https://www.abcfacil.com/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-slate-800 flex items-center justify-center text-blue-600 font-extrabold text-xs mb-1.5 group-hover:scale-110 transition-transform">
+                                ABC
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">ABC Fácil</span>
+                        </a>
+
+                        <!-- Kodomi Club -->
+                        <a href="https://kodomiclub.com/juegos" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-rose-100 dark:bg-slate-800 flex items-center justify-center text-rose-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-shapes"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Kadomi Club</span>
+                        </a>
+
+                        <!-- Amigoki -->
+                        <a href="https://amigoki.com/" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-yellow-100 dark:bg-slate-800 flex items-center justify-center text-yellow-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Amigoki</span>
+                        </a>
+
+                        <!-- Árbol ABC -->
+                        <a href="https://arbolabc.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-lime-100 dark:bg-slate-800 flex items-center justify-center text-lime-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Árbol ABC</span>
+                        </a>
+
+                        <!-- Wikipedia -->
+                        <a href="https://es.wikipedia.org" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-800 dark:text-slate-100 font-serif font-black text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                W
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Wikipedia</span>
+                        </a>
+
+                        <!-- Multiplicaciones (página propia: multiplicaciones.html) -->
+                        <a href="multiplicaciones.html" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-orange-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-orange-100 dark:bg-slate-800 flex items-center justify-center text-orange-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Multiplicaciones</span>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 7: JUEGOS Y MULTIMEDIA -->
+                <section class="category-block" data-category="multimedia">
+                    <div class="bg-red-600 dark:bg-red-800 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-red-500">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-gamepad text-lg text-amber-200"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Juegos y Multimedia</h2>
+                        </div>
+                        <span class="bg-red-950/60 text-red-100 text-xs px-2.5 py-0.5 rounded-full font-semibold">Recreación Educativa</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        
+                        <!-- YouTube -->
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-red-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">YouTube</span>
+                        </a>
+
+                        <!-- Symbaloo -->
+                        <a href="https://www.symbaloo.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-sky-100 dark:bg-slate-800 flex items-center justify-center text-sky-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-th-large"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Symbaloo</span>
+                        </a>
+
+                        <!-- Juegos Poki -->
+                        <a href="https://poki.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 font-extrabold text-xs mb-1.5 group-hover:scale-110 transition-transform">
+                                Poki
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Juegos Poki</span>
+                        </a>
+
+                        <!-- Juegos Friv -->
+                        <a href="https://www.friv.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-slate-800 flex items-center justify-center text-purple-600 font-extrabold text-xs mb-1.5 group-hover:scale-110 transition-transform">
+                                Friv
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Juegos Friv</span>
+                        </a>
+
+                        <!-- Juegos Juegos -->
+                        <a href="https://www.juegos.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-slate-800 flex items-center justify-center text-amber-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-dice"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Juegos Juegos</span>
+                        </a>
+
+                        <!-- Mini Juegos -->
+                        <a href="https://www.minijuegos.com" target="_blank" rel="noopener" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-red-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-slate-800 flex items-center justify-center text-emerald-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-ghost"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Mini Juegos</span>
+                        </a>
+
+                        <!-- Interland -->
+                        <a href="https://beinternetawesome.withgoogle.com/es_es/interland" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-sky-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-sky-100 dark:bg-slate-800 flex items-center justify-center text-sky-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Interland</span>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Seguridad en Internet</p>
+                        </a>
+
+                        <!-- Ajedrez Online -->
+                        <a href="https://www.ajedrezonline.com/jugar-contre-computadora.html/" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-amber-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-slate-800 flex items-center justify-center text-amber-700 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-chess"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Ajedrez Online</span>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Jugar vs CPU</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 8: HERRAMIENTAS Y UTILIDADES INTERACTIVAS -->
+                <section class="category-block" data-category="utilidades">
+                    <div class="bg-slate-700 dark:bg-slate-800 text-white px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm border-b border-slate-600">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-toolbox text-lg text-amber-300"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Herramientas y Mini Aplicaciones</h2>
+                        </div>
+                        <span class="bg-slate-900/60 text-slate-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">Herramientas Integradas</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        
+                        <!-- Calculadora -->
+                        <div onclick="openCalculatorModal()" class="access-card cursor-pointer bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-slate-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Calculadora</span>
+                        </div>
+
+                        <!-- Bloc de Notas -->
+                        <div onclick="openNotepadModal()" class="access-card cursor-pointer bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-slate-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-slate-800 flex items-center justify-center text-amber-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Bloc de Notas</span>
+                        </div>
+
+                        <!-- Lienzo Paint -->
+                        <div onclick="openPaintModal()" class="access-card cursor-pointer bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-slate-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-pink-100 dark:bg-slate-800 flex items-center justify-center text-pink-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Lienzo Paint</span>
+                        </div>
+
+                        <!-- Start.me -->
+                        <a href="https://start.me/p/L1rEYQ/osint4all" target="_blank" rel="noopener noreferrer" class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-slate-500 flex flex-col items-center text-center group">
+                            <div class="w-9 h-9 rounded-lg bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-th-large"></i>
+                            </div>
+                            <span class="font-bold text-xs text-slate-800 dark:text-slate-100">Start.me</span>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Portal de recursos</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN DINÁMICA DE ENLACES PERSONALIZADOS -->
+                <section id="customSection" class="hidden category-block" data-category="custom">
+                    <div class="bg-amber-500 dark:bg-amber-600 text-slate-900 px-5 py-3 rounded-t-2xl flex items-center justify-between shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-star text-lg text-slate-900"></i>
+                            <h2 class="text-base sm:text-lg font-bold tracking-wide">Mis Accesos Personalizados</h2>
+                        </div>
+                    </div>
+                    <div id="customCardsContainer" class="bg-white dark:bg-slate-800 p-4 rounded-b-2xl shadow-sm border border-slate-200 dark:border-slate-700 border-t-0 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <!-- Se generarán dinámicamente -->
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- BARRA LATERAL DERECHA (SIDEBAR) -->
+            <aside class="space-y-6">
+
+                <!-- TARJETA DE CITA O LEMA -->
+                <div class="bg-gradient-to-br from-blue-900 via-slate-900 to-blue-950 text-white p-6 rounded-2xl shadow-md border border-blue-800 relative overflow-hidden">
+                    <i class="fas fa-quote-right absolute -bottom-4 -right-2 text-7xl text-blue-500/10"></i>
+                    <p class="font-cursive text-xl sm:text-2xl text-amber-300 leading-relaxed text-center">
+                        "La tecnología también es una herramienta para construir un mejor futuro"
+                    </p>
+                    <div class="mt-3 text-center border-t border-blue-800/60 pt-2">
+                        <span class="text-xs uppercase tracking-widest text-slate-300 font-semibold">Camino Real Digital</span>
+                    </div>
+                </div>
+
+                <!-- OPCIONES DE SISTEMA -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 space-y-3">
+                    <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1">
+                        Opciones del Sistema
+                    </h3>
+                    
+                    <button onclick="openAddLinkModal()" class="w-full flex items-center justify-between p-3 rounded-xl bg-sky-50 dark:bg-sky-950/40 text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors border border-sky-200 dark:border-sky-800/50 font-semibold text-sm">
+                        <span class="flex items-center"><i class="fas fa-plus-circle text-sky-600 mr-2.5 text-base"></i> Agregar acceso directo</span>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+
+                    <button onclick="toggleFullscreen()" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-600 font-semibold text-sm">
+                        <span class="flex items-center"><i class="fas fa-expand-arrows-alt text-slate-500 mr-2.5 text-base"></i> Pantalla completa</span>
+                        <i class="fas fa-desktop text-xs"></i>
+                    </button>
+
+                    <button onclick="openHelpModal()" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-600 font-semibold text-sm">
+                        <span class="flex items-center"><i class="fas fa-question-circle text-amber-500 mr-2.5 text-base"></i> Ayuda y Soporte</span>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- MÓDULO DE SOPORTE TÉCNICO -->
+                <div class="bg-amber-50 dark:bg-amber-950/30 rounded-2xl p-4 border border-amber-200 dark:border-amber-800/50 flex items-start space-x-3">
+                    <div class="p-2.5 bg-amber-400 text-slate-900 rounded-xl flex-shrink-0 mt-0.5">
+                        <i class="fas fa-lightbulb text-base"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-amber-300">Soporte e Informática</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                            Si necesitas restablecer contraseñas o soporte técnico, contacta al <strong class="text-slate-900 dark:text-white">Coordinador de Enlaces TICC</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ACCESO RÁPIDO Y ENLACES FRECUENTES -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 space-y-2">
+                    <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1 flex items-center justify-between">
+                        <span>Enlaces Rápidos</span>
+                        <i class="fas fa-bolt text-amber-400"></i>
+                    </h3>
+                    <ul class="divide-y divide-slate-100 dark:divide-slate-700 text-xs font-medium">
+                        <li>
+                            <a href="https://www.ccrmmp.cl" target="_blank" class="block py-2 px-1 hover:text-blue-600 dark:hover:text-blue-400 flex items-center justify-between">
+                                <span>Página CCRMMP</span>
+                                <i class="fas fa-angle-right text-slate-400"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://colegiocaminoreal.masterclass.cl" target="_blank" class="block py-2 px-1 hover:text-blue-600 dark:hover:text-blue-400 flex items-center justify-between">
+                                <span>Masterclass</span>
+                                <i class="fas fa-angle-right text-slate-400"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://drive.google.com" target="_blank" class="block py-2 px-1 hover:text-blue-600 dark:hover:text-blue-400 flex items-center justify-between">
+                                <span>Google Drive</span>
+                                <i class="fas fa-angle-right text-slate-400"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/@CCRMMP-Ambiental" target="_blank" class="block py-2 px-1 hover:text-blue-600 dark:hover:text-blue-400 flex items-center justify-between">
+                                <span>Canal Ambiental</span>
+                                <i class="fas fa-angle-right text-slate-400"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="bg-slate-950 text-white mt-12 border-t-4 border-amber-400 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-800 pb-6">
+                
+                <div class="flex items-center space-x-3 text-center md:text-left">
+                    <div class="w-10 h-10 rounded-full bg-amber-400 text-slate-950 font-black flex items-center justify-center text-lg">
+                        CR
+                    </div>
+                    <div>
+                        <p class="font-extrabold text-base text-white">Colegio del Camino Real</p>
+                        <p class="text-xs text-slate-400">DAEM Ilustre Municipalidad de Mostazal</p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="font-cursive text-2xl text-amber-300">¡Juntos por una mejor educación!</p>
+                </div>
+
+                <!-- Redes Sociales del Colegio -->
+                <div class="flex items-center space-x-4">
+                    <a href="https://www.ccrmmp.cl" target="_blank" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-amber-400 hover:text-slate-900 transition-colors flex items-center justify-center text-slate-300" title="Sitio Web">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                    <a href="https://www.facebook.com/ccrmmp" target="_blank" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-amber-400 hover:text-slate-900 transition-colors flex items-center justify-center text-slate-300" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/ccrmmp/" target="_blank" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-amber-400 hover:text-slate-900 transition-colors flex items-center justify-center text-slate-300" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@CCRMMP-Ambiental" target="_blank" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-amber-400 hover:text-slate-900 transition-colors flex items-center justify-center text-slate-300" title="YouTube Ambiental">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+                <p>Colegio del Camino Real | <span class="text-amber-400 font-semibold">ccrmmp.cl</span></p>
+                <p>Santa Teresa, Mostazal - Región de O'Higgins | RBD 2231-4</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALES DE NAVEGACIÓN Y MINI-APLICACIONES -->
+
+    <!-- 1. MODAL DE INFORMACIÓN INSTITUCIONAL -->
+    <div id="institutionalModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden transition-opacity">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col">
+            
+            <div class="bg-blue-900 text-white p-5 rounded-t-2xl flex items-center justify-between sticky top-0 z-10">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-400 text-slate-900 font-bold flex items-center justify-center">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Colegio del Camino Real</h3>
+                        <p class="text-xs text-amber-300">Mario Miranda Pinto - RBD 2231-4</p>
+                    </div>
+                </div>
+                <button onclick="closeInstitutionalModal()" class="text-slate-300 hover:text-white text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-6 text-sm">
+                <div class="bg-blue-50 dark:bg-blue-950/40 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
+                    <h4 class="font-bold text-blue-900 dark:text-blue-300 flex items-center">
+                        <i class="fas fa-award mr-2 text-amber-500"></i> Proyecto Educativo e Integración Tecnológica
+                    </h4>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                        Ubicado en Santa Teresa, Mostazal. Formamos integralmente a niños y jóvenes en Educación Parvularia y Básica con enfoque inclusivo, ambiental SNCAE y digital.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white text-base mb-3 border-b pb-1 dark:border-slate-700 flex items-center">
+                        <i class="fas fa-user-tie text-blue-600 mr-2"></i> Equipo Directivo
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-200 dark:border-slate-600">
+                            <span class="text-slate-500 dark:text-slate-400 block font-semibold">Directora</span>
+                            <span class="font-bold text-slate-800 dark:text-white">Jacqueline Ponce Santander</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-200 dark:border-slate-600">
+                            <span class="text-slate-500 dark:text-slate-400 block font-semibold">Inspectora General</span>
+                            <span class="font-bold text-slate-800 dark:text-white">María José Ibarra</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-b-2xl border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                <button onclick="closeInstitutionalModal()" class="px-5 py-2 bg-blue-800 text-white rounded-xl font-bold text-xs hover:bg-blue-700">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL MINI-APP CALCULADORA -->
+    <div id="calculatorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 text-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-widest"><i class="fas fa-calculator mr-1"></i> Calculadora</span>
+                <button onclick="closeCalculatorModal()" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="bg-slate-950 p-4 rounded-2xl mb-4 text-right border border-slate-800">
+                <div id="calcPrevious" class="text-xs text-slate-500 h-4 font-mono"></div>
+                <div id="calcDisplay" class="text-3xl font-mono font-bold tracking-wider text-amber-400 overflow-x-auto">0</div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 text-lg font-bold">
+                <button onclick="calcClear()" class="p-3 bg-red-600/80 hover:bg-red-600 text-white rounded-xl">C</button>
+                <button onclick="calcAppend('(')" class="p-3 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-xl">(</button>
+                <button onclick="calcAppend(')')" class="p-3 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-xl">)</button>
+                <button onclick="calcAppend('/')" class="p-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl">÷</button>
+
+                <button onclick="calcAppend('7')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">7</button>
+                <button onclick="calcAppend('8')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">8</button>
+                <button onclick="calcAppend('9')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">9</button>
+                <button onclick="calcAppend('*')" class="p-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl">×</button>
+
+                <button onclick="calcAppend('4')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">4</button>
+                <button onclick="calcAppend('5')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">5</button>
+                <button onclick="calcAppend('6')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">6</button>
+                <button onclick="calcAppend('-')" class="p-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl">-</button>
+
+                <button onclick="calcAppend('1')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">1</button>
+                <button onclick="calcAppend('2')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">2</button>
+                <button onclick="calcAppend('3')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">3</button>
+                <button onclick="calcAppend('+')" class="p-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl">+</button>
+
+                <button onclick="calcAppend('0')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl col-span-2">0</button>
+                <button onclick="calcAppend('.')" class="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl">.</button>
+                <button onclick="calcEvaluate()" class="p-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODAL MINI-APP BLOC DE NOTAS -->
+    <div id="notepadModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col">
+            <div class="flex items-center justify-between mb-3">
+                <span class="font-bold text-slate-800 dark:text-white text-base flex items-center">
+                    <i class="fas fa-sticky-note text-amber-500 mr-2"></i> Bloc de Notas Personal
+                </span>
+                <button onclick="closeNotepadModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <textarea id="notepadText" oninput="saveNote()" placeholder="Escribe aquí tus recordatorios o tareas..." class="w-full h-64 p-3 bg-amber-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-xl border border-amber-200 dark:border-slate-700 outline-none resize-none text-sm font-sans"></textarea>
+            <div class="mt-3 flex items-center justify-between text-xs text-slate-500">
+                <span id="noteSaveStatus" class="text-emerald-600 dark:text-emerald-400 font-semibold"><i class="fas fa-check"></i> Guardado automáticamente</span>
+                <button onclick="clearNote()" class="text-red-500 hover:underline">Borrar nota</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MODAL PAINT / CANVAS DE DIBUJO -->
+    <div id="paintModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col">
+            <div class="flex items-center justify-between mb-3">
+                <span class="font-bold text-slate-800 dark:text-white text-base flex items-center">
+                    <i class="fas fa-paint-brush text-pink-500 mr-2"></i> Lienzo de Dibujo Paint
+                </span>
+                <button onclick="closePaintModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 mb-3 bg-slate-100 dark:bg-slate-700/50 p-2 rounded-xl text-xs">
+                <div class="flex items-center space-x-1">
+                    <label class="font-bold text-slate-600 dark:text-slate-300">Color:</label>
+                    <input type="color" id="paintColor" value="#0d2b5c" class="w-8 h-8 rounded cursor-pointer border-none bg-transparent">
+                </div>
+                <div class="flex items-center space-x-1">
+                    <label class="font-bold text-slate-600 dark:text-slate-300">Grosor:</label>
+                    <input type="range" id="paintBrushSize" min="1" max="20" value="4" class="w-20">
+                </div>
+                <button onclick="clearPaintCanvas()" class="px-3 py-1 bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 rounded-lg text-slate-800 dark:text-white font-semibold">
+                    <i class="fas fa-eraser mr-1"></i> Limpiar
+                </button>
+                <button onclick="downloadPaintCanvas()" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold ml-auto">
+                    <i class="fas fa-download mr-1"></i> Descargar
+                </button>
+            </div>
+
+            <canvas id="paintCanvas" width="600" height="350" class="w-full bg-white border border-slate-300 dark:border-slate-600 rounded-xl cursor-crosshair shadow-inner"></canvas>
+        </div>
+    </div>
+
+    <!-- 5. MODAL AGREGAR ENLACE PERSONALIZADO -->
+    <div id="addLinkModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-5 shadow-2xl border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-slate-900 dark:text-white text-base">
+                    <i class="fas fa-plus-circle text-sky-500 mr-2"></i> Agregar Acceso Directo
+                </h3>
+                <button onclick="closeAddLinkModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleSaveCustomLink(event)" class="space-y-4 text-xs sm:text-sm">
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Nombre del sitio</label>
+                    <input type="text" id="customTitle" required placeholder="Ej: Biblioteca Digital" class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Enlace / URL</label>
+                    <input type="url" id="customUrl" required placeholder="https://www.ejemplo.com" class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Ícono</label>
+                    <select id="customIcon" class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none">
+                        <option value="fa-bookmark">Marcador</option>
+                        <option value="fa-book">Libro / Lectura</option>
+                        <option value="fa-gamepad">Juego</option>
+                        <option value="fa-globe">Web General</option>
+                        <option value="fa-star">Estrella</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeAddLinkModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl font-bold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 6. MODAL AYUDA Y PREGUNTAS FRECUENTES -->
+    <div id="helpModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between mb-4 border-b pb-2 dark:border-slate-700">
+                <h3 class="font-bold text-slate-900 dark:text-white text-base flex items-center">
+                    <i class="fas fa-question-circle text-amber-500 mr-2"></i> Ayuda del Portal
+                </h3>
+                <button onclick="closeHelpModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600">
+                    <h4 class="font-bold text-slate-800 dark:text-white">¿Cómo acceder a Masterclass?</h4>
+                    <p class="mt-1">Haz clic en la tarjeta Masterclass en la sección Institucional e inicia sesión con el usuario asignado por el establecimiento.</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600">
+                    <h4 class="font-bold text-slate-800 dark:text-white">¿Cómo agregar tus propios accesos?</h4>
+                    <p class="mt-1">Usa la opción "Agregar acceso directo" del menú lateral e ingresa la dirección web que utilizas con frecuencia.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeHelpModal()" class="px-4 py-2 bg-slate-800 text-white rounded-xl font-bold text-xs">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR TOAST PARA NOTIFICACIONES -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 pointer-events-none space-y-2"></div>
+
+    <!-- SCRIPT DE FUNCIONALIDAD COMPLETA -->
+    <script>
+        let customLinks = JSON.parse(localStorage.getItem('ccrmmp_custom_links') || '[]');
+        let isDarkMode = localStorage.getItem('ccrmmp_theme') === 'dark';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initClock();
+            initTheme();
+            renderCustomLinks();
+            initPaintCanvas();
+            loadNote();
+        });
+
+        function initClock() {
+            function update() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                
+                document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds}`;
+
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const dateStr = now.toLocaleDateString('es-ES', options);
+                document.getElementById('liveDate').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        function initTheme() {
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').className = 'fas fa-sun text-amber-300';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('themeIcon').className = 'fas fa-moon text-amber-400';
+            }
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('ccrmmp_theme', isDarkMode ? 'dark' : 'light');
+            initTheme();
+            showToast(isDarkMode ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeTab = document.getElementById(`tab-${category}`);
+            if (activeTab) activeTab.classList.add('active');
+
+            const blocks = document.querySelectorAll('.category-block');
+            blocks.forEach(block => {
+                if (category === 'all') {
+                    if (block.id === 'customSection' && customLinks.length === 0) {
+                        block.classList.add('hidden');
+                    } else {
+                        block.classList.remove('hidden');
+                    }
+                } else {
+                    if (block.dataset.category === category) {
+                        block.classList.remove('hidden');
+                    } else {
+                        block.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const counter = document.getElementById('searchCounter');
+            const cards = document.querySelectorAll('.access-card');
+            
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+                let matchCount = 0;
+
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        card.classList.remove('hidden');
+                        matchCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                document.querySelectorAll('.category-block').forEach(b => b.classList.remove('hidden'));
+                counter.textContent = `${matchCount} resultados`;
+                counter.classList.remove('hidden');
+            } else {
+                clearSearch();
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            document.getElementById('searchCounter').classList.add('hidden');
+            document.querySelectorAll('.access-card').forEach(card => card.classList.remove('hidden'));
+            filterCategory('all');
+        }
+
+        function openInstitutionalModal() {
+            document.getElementById('institutionalModal').classList.remove('hidden');
+        }
+        function closeInstitutionalModal() {
+            document.getElementById('institutionalModal').classList.add('hidden');
+        }
+
+        function openHelpModal() {
+            document.getElementById('helpModal').classList.remove('hidden');
+        }
+        function closeHelpModal() {
+            document.getElementById('helpModal').classList.add('hidden');
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {
+                    showToast('Pantalla completa no disponible', 'error');
+                });
+                showToast('Pantalla completa activada', 'success');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    showToast('Pantalla completa desactivada', 'info');
+                }
+            }
+        }
+
+        // CALCULADORA
+        function openCalculatorModal() {
+            document.getElementById('calculatorModal').classList.remove('hidden');
+        }
+        function closeCalculatorModal() {
+            document.getElementById('calculatorModal').classList.add('hidden');
+        }
+
+        let calcExpr = '';
+        function calcAppend(val) {
+            calcExpr += val;
+            document.getElementById('calcDisplay').textContent = calcExpr;
+        }
+        function calcClear() {
+            calcExpr = '';
+            document.getElementById('calcDisplay').textContent = '0';
+            document.getElementById('calcPrevious').textContent = '';
+        }
+        function calcEvaluate() {
+            try {
+                const res = eval(calcExpr);
+                document.getElementById('calcPrevious').textContent = calcExpr + ' =';
+                document.getElementById('calcDisplay').textContent = res;
+                calcExpr = String(res);
+            } catch (e) {
+                document.getElementById('calcDisplay').textContent = 'Error';
+                calcExpr = '';
+            }
+        }
+
+        // BLOC DE NOTAS
+        function openNotepadModal() {
+            document.getElementById('notepadModal').classList.remove('hidden');
+        }
+        function closeNotepadModal() {
+            document.getElementById('notepadModal').classList.add('hidden');
+        }
+        function saveNote() {
+            const val = document.getElementById('notepadText').value;
+            localStorage.setItem('ccrmmp_notepad', val);
+            document.getElementById('noteSaveStatus').innerHTML = '<i class="fas fa-check"></i> Guardado automáticamente';
+        }
+        function loadNote() {
+            const val = localStorage.getItem('ccrmmp_notepad') || '';
+            document.getElementById('notepadText').value = val;
+        }
+        function clearNote() {
+            if(confirm('¿Deseas borrar las notas?')) {
+                document.getElementById('notepadText').value = '';
+                localStorage.removeItem('ccrmmp_notepad');
+                showToast('Notas borradas', 'info');
+            }
+        }
+
+        // PAINT CANVAS
+        let canvas, ctx, isDrawing = false;
+        function openPaintModal() {
+            document.getElementById('paintModal').classList.remove('hidden');
+            setTimeout(resizePaintCanvas, 100);
+        }
+        function closePaintModal() {
+            document.getElementById('paintModal').classList.add('hidden');
+        }
+
+        function initPaintCanvas() {
+            canvas = document.getElementById('paintCanvas');
+            ctx = canvas.getContext('2d');
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+
+            canvas.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                if(!isDrawing) return;
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+                ctx.strokeStyle = document.getElementById('paintColor').value;
+                ctx.lineWidth = document.getElementById('paintBrushSize').value;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                e.preventDefault();
+            });
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function resizePaintCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width - 40;
+            canvas.height = 300;
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.strokeStyle = document.getElementById('paintColor').value;
+            ctx.lineWidth = document.getElementById('paintBrushSize').value;
+            ctx.lineCap = 'round';
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearPaintCanvas() {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            showToast('Lienzo limpiado', 'info');
+        }
+
+        function downloadPaintCanvas() {
+            const link = document.createElement('a');
+            link.download = 'dibujo_camino_real.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            showToast('Dibujo descargado', 'success');
+        }
+
+        // ACCESOS PERSONALIZADOS
+        function openAddLinkModal() {
+            document.getElementById('addLinkModal').classList.remove('hidden');
+        }
+        function closeAddLinkModal() {
+            document.getElementById('addLinkModal').classList.add('hidden');
+        }
+
+        function handleSaveCustomLink(e) {
+            e.preventDefault();
+            const title = document.getElementById('customTitle').value;
+            const url = document.getElementById('customUrl').value;
+            const icon = document.getElementById('customIcon').value;
+
+            customLinks.push({ title, url, icon });
+            localStorage.setItem('ccrmmp_custom_links', JSON.stringify(customLinks));
+            
+            renderCustomLinks();
+            closeAddLinkModal();
+            showToast('Acceso directo agregado con éxito', 'success');
+            
+            document.getElementById('customTitle').value = '';
+            document.getElementById('customUrl').value = '';
+        }
+
+        function renderCustomLinks() {
+            const container = document.getElementById('customCardsContainer');
+            const section = document.getElementById('customSection');
+
+            if (customLinks.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            container.innerHTML = customLinks.map((link, idx) => `
+                <div class="access-card bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-amber-500 flex flex-col items-center text-center relative group">
+                    <button onclick="deleteCustomLink(${idx})" class="absolute top-1 right-1 text-slate-400 hover:text-red-500 p-1 text-xs">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <a href="${link.url}" target="_blank" class="w-full flex flex-col items-center">
+                        <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-slate-800 flex items-center justify-center text-amber-600 text-base mb-1.5 group-hover:scale-110 transition-transform">
+                            <i class="fas ${link.icon}"></i>
+                        </div>
+                        <span class="font-bold text-xs text-slate-800 dark:text-slate-100 truncate w-full">${link.title}</span>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function deleteCustomLink(idx) {
+            customLinks.splice(idx, 1);
+            localStorage.setItem('ccrmmp_custom_links', JSON.stringify(customLinks));
+            renderCustomLinks();
+            showToast('Acceso eliminado', 'info');
+        }
+
+        function showToast(msg, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            let bg = 'bg-slate-900 text-white border-slate-700';
+            let icon = 'fa-info-circle text-sky-400';
+            if (type === 'success') {
+                bg = 'bg-emerald-900 text-white border-emerald-700';
+                icon = 'fa-check-circle text-emerald-400';
+            } else if (type === 'error') {
+                bg = 'bg-rose-900 text-white border-rose-700';
+                icon = 'fa-exclamation-triangle text-rose-400';
+            }
+
+            toast.className = `p-3 rounded-xl shadow-2xl border text-xs sm:text-sm font-semibold flex items-center space-x-2 transition-all duration-300 transform translate-y-2 opacity-0 ${bg}`;
+            toast.innerHTML = `<i class="fas ${icon} text-base"></i> <span>${msg}</span>`;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
